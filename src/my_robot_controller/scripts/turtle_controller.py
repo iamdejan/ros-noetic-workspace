@@ -33,7 +33,7 @@ def pose_callback(pose: Pose, pub: rospy.Publisher):
         rospy.loginfo("Set color to red!")
         call_set_pen_service(255, 0, 0, 3, 0)
     elif pose.x < 5.5 and previous_x >= 5.5:
-        rospy.loginfo("Set color to blue!")
+        rospy.loginfo("Set color to green!")
         call_set_pen_service(0, 255, 0, 3, 0)
     previous_x = pose.x
 

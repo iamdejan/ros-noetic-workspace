@@ -141,6 +141,7 @@ include_directories(
 add_executable(cpp_my_first_node src/cpp_my_first_node.cpp)
 add_executable(cpp_draw_circle src/cpp_draw_circle.cpp)
 add_executable(cpp_pose_subscriber src/cpp_pose_subscriber.cpp)
+add_executable(cpp_turtle_controller src/cpp_turtle_controller.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,6 +161,9 @@ target_link_libraries(cpp_draw_circle
   ${catkin_LIBRARIES}
 )
 target_link_libraries(cpp_pose_subscriber
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(cpp_turtle_controller
   ${catkin_LIBRARIES}
 )
 
