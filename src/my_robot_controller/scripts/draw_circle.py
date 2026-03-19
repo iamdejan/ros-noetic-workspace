@@ -3,7 +3,8 @@
 import rospy
 from geometry_msgs.msg import Twist
 
-if __name__ == "__main__":
+
+def main():
     rospy.init_node("draw_circle")
     rospy.loginfo("Node has been started")
 
@@ -18,3 +19,7 @@ if __name__ == "__main__":
         pub.publish(msg)
 
         rate.sleep()
+
+
+if __name__ == "__main__":
+    main()
