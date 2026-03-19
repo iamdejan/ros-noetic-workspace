@@ -7,6 +7,7 @@
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
     "rust-analyzer.linkedProjects": [
-        "src/rosrust_controller/Cargo.toml"
+        "src/rosrust_controller/Cargo.toml",
+        "src/roslibrust_controller/Cargo.toml",
     ],
 }

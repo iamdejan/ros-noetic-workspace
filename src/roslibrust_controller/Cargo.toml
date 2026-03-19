@@ -1,5 +1,5 @@
 [package]
-name = "rosrust_controller"
+name = "roslibrust_controller"
 version = "0.1.0"
 edition = "2024"
 
@@ -14,9 +14,10 @@ pedantic = { level = "deny", priority = -1 }
 trivially_copy_pass_by_ref = "allow"
 
 [dependencies]
-env_logger = "0.11.9"
-rosrust = "0.9"
-rosrust_msg = "0.1"
+roslibrust = { version = "0.20.0", features = ["codegen", "ros1", "roslibrust_ros1"] }
+roslibrust_codegen_macro = "0.20.0"
+tokio = { version = "1.50.0", features = ["signal"] }
+tokio-util = "0.7.18"
 
 [profile.release]
 opt-level = "z"   # Optimize for size ("s" is another option to experiment with)

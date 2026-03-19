@@ -1,4 +1,4 @@
-const NODE_NAME: &'static str = "rosrust_rusty_talker";
+const NODE_NAME: &str = "rosrust_rusty_talker";
 
 fn main() {
     env_logger::init();
@@ -11,7 +11,7 @@ fn main() {
     let rate = rosrust::rate(5.0);
     while rosrust::is_ok() {
         let message = rosrust_msg::std_msgs::String {
-            data: format!("Hi, this is {} node speaking!", NODE_NAME),
+            data: format!("Hi, this is {NODE_NAME} node speaking!"),
         };
         rosrust::ros_info!("Sending message...");
         publisher.send(message).unwrap();
