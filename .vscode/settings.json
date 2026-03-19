@@ -6,5 +6,7 @@
     "python.analysis.extraPaths": [
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
-    "C_Cpp.autocomplete": "default"
+    "rust-analyzer.linkedProjects": [
+        "src/rosrust_controller/Cargo.toml"
+    ],
 }
