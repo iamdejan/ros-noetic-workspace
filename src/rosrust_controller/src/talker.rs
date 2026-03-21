@@ -1,4 +1,4 @@
-const NODE_NAME: &str = "rosrust_talker";
+const NODE_NAME: &'static str = "rosrust_talker";
 
 fn main() {
     env_logger::init();
