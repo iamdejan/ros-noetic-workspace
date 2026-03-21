@@ -8,7 +8,7 @@ def main():
     rospy.init_node("draw_circle")
     rospy.loginfo("Node has been started")
 
-    pub = rospy.Publisher("/turtle1/cmd_vel", Twist, queue_size=10)
+    publisher = rospy.Publisher("/turtle1/cmd_vel", Twist, queue_size=10)
 
     rate = rospy.Rate(2)
 
@@ -16,7 +16,7 @@ def main():
         msg = Twist()
         msg.linear.x = 2.0
         msg.angular.z = 1.0
-        pub.publish(msg)
+        publisher.publish(msg)
 
         rate.sleep()
 

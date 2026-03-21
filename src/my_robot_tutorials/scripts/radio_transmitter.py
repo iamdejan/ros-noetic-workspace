@@ -6,7 +6,7 @@ from std_msgs.msg import String
 
 def main():
     rospy.init_node("radio_transmitter", anonymous=True)
-    pub = rospy.Publisher("/robot_news_radio", String, queue_size=10)
+    publisher = rospy.Publisher("/robot_news_radio", String, queue_size=10)
     rate = rospy.Rate(10)
 
     rospy.loginfo("Node has been started")
@@ -14,7 +14,7 @@ def main():
     while not rospy.is_shutdown():
         msg = String()
         msg.data = "Hi, this is radio_transmitter node speaking!"
-        pub.publish(msg)
+        publisher.publish(msg)
         rate.sleep()
 
 

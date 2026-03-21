@@ -7,13 +7,13 @@ int main(int argc, char **argv) {
     
     ROS_INFO("Node has been started");
 
-    auto pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+    auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
     auto rate = ros::Rate(2.0);
     while (ros::ok()) {
         auto msg = geometry_msgs::Twist();
         msg.linear.x = 2.0;
         msg.angular.z = 1.0;
-        pub.publish(msg);
+        publisher.publish(msg);
 
         rate.sleep();
     }

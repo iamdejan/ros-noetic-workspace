@@ -19,14 +19,14 @@ def call_set_pen_service(r, g, b, width, off):
         rospy.logwarn(e)
 
 
-def pose_callback(pose: Pose, pub: rospy.Publisher):
-    cmd = Twist()
-    cmd.linear.x = 5.0
-    cmd.angular.z = 0.0
+def pose_callback(pose: Pose, publisher: rospy.Publisher):
+    command = Twist()
+    command.linear.x = 5.0
+    command.angular.z = 0.0
 
     if pose.x > 9.0 or pose.x < 2.0 or pose.y > 9.0 or pose.y < 2.0:
-        cmd.linear.x = 1.0
-        cmd.angular.z = 1.4
+        command.linear.x = 1.0
+        command.angular.z = 1.4
 
     global previous_x
     if pose.x >= 5.5 and previous_x < 5.5:
@@ -37,7 +37,7 @@ def pose_callback(pose: Pose, pub: rospy.Publisher):
         call_set_pen_service(0, 255, 0, 3, 0)
     previous_x = pose.x
 
-    pub.publish(cmd)
+    publisher.publish(command)
 
 
 def main():
@@ -45,8 +45,8 @@ def main():
     rospy.wait_for_service(SERVICE_NAME)
     call_set_pen_service(255, 0, 0, 3, 0)
 
-    pub = rospy.Publisher("/turtle1/cmd_vel", Twist, queue_size=10)
-    rospy.Subscriber("/turtle1/pose", Pose, callback=pose_callback, callback_args=pub)
+    publisher = rospy.Publisher("/turtle1/cmd_vel", Twist, queue_size=10)
+    rospy.Subscriber("/turtle1/pose", Pose, callback=pose_callback, callback_args=publisher)
 
     rospy.loginfo("Node has been started")
 
