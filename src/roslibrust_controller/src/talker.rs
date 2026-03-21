@@ -5,7 +5,7 @@ use std::time::Duration;
 use tokio::signal;
 use tokio_util::sync::CancellationToken;
 
-const NODE_NAME: &str = "roslibrust_talker";
+const NODE_NAME: &'static str = "roslibrust_talker";
 
 async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
     let publisher = nh

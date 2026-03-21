@@ -32,8 +32,8 @@ path = "src/draw_circle.rs"
 name = "turtle_controller"
 path = "src/turtle_controller.rs"
 
-# [profile.dev]
-# opt-level = "z"   # Optimize for size ("s" is another option to experiment with)
-# lto = true        # Enable Link Time Optimization for dead code elimination
-# codegen-units = 1 # Maximize size reduction, but increases compile time
-# strip = true      # Automatically strip symbols from the binary
+[profile.dev]
+opt-level = "z"   # Optimize for size ("s" is another option to experiment with)
+lto = true        # Enable Link Time Optimization for dead code elimination
+codegen-units = 1 # Maximize size reduction, but increases compile time
+strip = true      # Automatically strip symbols from the binary
