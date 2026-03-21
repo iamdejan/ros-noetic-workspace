@@ -28,7 +28,7 @@ private:
     float previous_x = 0.0;
 public:
     ros::NodeHandle nh;
-    ros::Publisher pub;
+    ros::Publisher publisher;
 
     void callback(turtlesim::Pose pose) {
         auto cmd = geometry_msgs::Twist();
@@ -50,7 +50,7 @@ public:
 
         this->previous_x = pose.x;
 
-        this->pub.publish(cmd);
+        this->publisher.publish(cmd);
     }
 };
 
@@ -60,10 +60,10 @@ int main(int argc, char **argv) {
 
     ros::service::waitForService(SERVICE_NAME);
 
-    auto pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+    auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
     auto node = Node();
     node.nh = nh;
-    node.pub = pub;
+    node.publisher = publisher;
     auto sub = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
