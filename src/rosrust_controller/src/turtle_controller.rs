@@ -5,17 +5,18 @@ use std::time::Duration;
 use rosrust_msg::geometry_msgs;
 use rosrust_msg::turtlesim;
 
-const NODE_NAME: &'static str = "rosrust_turtle_controller";
-const SERVICE_NAME: &'static str = "/turtle1/set_pen";
+const NODE_NAME: &str = "rosrust_turtle_controller";
+const SERVICE_NAME: &str = "/turtle1/set_pen";
 
 fn call_set_pen_service(r: u8, g: u8, b: u8, width: u8, off: u8) {
     let client = rosrust::client::<turtlesim::SetPen>(SERVICE_NAME).unwrap();
-    let mut command = turtlesim::SetPenReq::default();
-    command.r = r;
-    command.g = g;
-    command.b = b;
-    command.width = width;
-    command.off = off;
+    let command = rosrust_msg::turtlesim::SetPenReq {
+        r,
+        g,
+        b,
+        width,
+        off,
+    };
     client.req(&command).unwrap().unwrap();
 }
 
@@ -48,7 +49,8 @@ fn main() {
         *previous_x.lock().unwrap() = pose.x;
 
         publisher.send(command).unwrap();
-    }).unwrap();
+    })
+    .unwrap();
 
     rosrust::ros_info!("Node has been started");
 
