@@ -31,13 +31,13 @@ public:
     ros::Publisher publisher;
 
     void callback(turtlesim::Pose pose) {
-        auto cmd = geometry_msgs::Twist();
-        cmd.linear.x = 5.0;
-        cmd.angular.z = 0.0;
+        auto command = geometry_msgs::Twist();
+        command.linear.x = 5.0;
+        command.angular.z = 0.0;
 
         if (pose.x > 9.0 || pose.x < 2.0 || pose.y > 9.0 || pose.y < 2.0) {
-            cmd.linear.x = 1.0;
-            cmd.angular.z = 1.4;
+            command.linear.x = 1.0;
+            command.angular.z = 1.4;
         }
 
         if (pose.x >= 5.5 && this->previous_x < 5.5) {
@@ -50,7 +50,7 @@ public:
 
         this->previous_x = pose.x;
 
-        this->publisher.publish(cmd);
+        this->publisher.publish(command);
     }
 };
 

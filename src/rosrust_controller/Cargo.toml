@@ -6,6 +6,8 @@ edition = "2024"
 [lints.rust]
 warnings = "warn"
 dead-code = "warn"
+unused_imports = "deny"
+unused_variables = "deny"
 
 [lints.clippy]
 needless_return = "allow"
@@ -25,6 +27,10 @@ path = "src/talker.rs"
 [[bin]]
 name = "draw_circle"
 path = "src/draw_circle.rs"
+
+[[bin]]
+name = "turtle_controller"
+path = "src/turtle_controller.rs"
 
 [profile.dev]
 opt-level = "z"   # Optimize for size ("s" is another option to experiment with)
