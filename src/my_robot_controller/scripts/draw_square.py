@@ -13,7 +13,7 @@ SERVICE_NAME = "/turtle1/set_pen"
 THETA_TARGETS = [0.0, math.radians(90), math.radians(180-360), math.radians(270-360)]
 FORWARD_SPEED = 4.0
 TURN_SPEED = 0.2
-UPDATE_BY_DELTA_MULTIPLIER = 1.0
+UPDATE_BY_DELTA_MULTIPLIER = 0.0
 
 
 class State(Enum):
@@ -51,8 +51,10 @@ def update_limits(pose: Pose):
     pass
 
 
-def get_limits() -> str:
-    return f"{x_limits}, {y_limits}"
+def get_formatted_limits() -> str:
+    x_limits_str: str = ", ".join([f"{item:.4f}" for item in x_limits])
+    y_limits_str: str = ", ".join([f"{item:.4f}" for item in y_limits])
+    return f"x_limits = [{x_limits_str}], y_limits = [{y_limits_str}]"
 
 
 def pose_callback(pose: Pose, publisher: rospy.Publisher):
@@ -61,7 +63,7 @@ def pose_callback(pose: Pose, publisher: rospy.Publisher):
     
     command = Twist()
     theta_target = THETA_TARGETS[current_target_index]
-    rospy.loginfo(f"state = {current_state}, pose = ({pose.x:.4f}, {pose.y:.4f}), pose.theta = {pose.theta:.4f}, theta_target = {theta_target:.4f}, limits = {get_limits()}")
+    rospy.loginfo(f"state = {current_state}, pose = ({pose.x:.4f}, {pose.y:.4f}), pose.theta = {pose.theta:.4f}, theta_target = {theta_target:.4f}, {get_formatted_limits()}")
     
     if current_state == State.STILL and abs(pose.theta - theta_target) <= DELTA:
         command.linear.x = FORWARD_SPEED
@@ -77,8 +79,6 @@ def pose_callback(pose: Pose, publisher: rospy.Publisher):
         command.angular.z = TURN_SPEED
         current_state = State.TURN_LEFT
     elif current_state == State.TURN_LEFT and abs(pose.theta - theta_target) <= DELTA:
-        update_limits(pose)
-
         command.linear.z = 0.0
         current_state = State.STILL
     elif current_state == State.FORWARD:
