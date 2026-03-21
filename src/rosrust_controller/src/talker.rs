@@ -1,11 +1,12 @@
-const NODE_NAME: &str = "rosrust_rusty_talker";
+const NODE_NAME: &str = "rosrust_talker";
 
 fn main() {
     env_logger::init();
     rosrust::init(NODE_NAME);
     rosrust::ros_info!("Node has been started");
 
-    let publisher = rosrust::publish::<rosrust_msg::std_msgs::String>("/robot_news_radio", 10).unwrap();
+    let publisher =
+        rosrust::publish::<rosrust_msg::std_msgs::String>("/robot_news_radio", 10).unwrap();
     publisher.wait_for_subscribers(None).unwrap();
 
     let rate = rosrust::rate(5.0);

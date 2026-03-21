@@ -1,22 +1,34 @@
 roslibrust_codegen_macro::find_and_generate_ros_messages!();
 
-use roslibrust::{TopicProvider, Publish};
+use roslibrust::{Publish, TopicProvider};
+use std::time::Duration;
 use tokio::signal;
 use tokio_util::sync::CancellationToken;
-use std::time::Duration;
 
-const NODE_NAME: &str = "roslibrust_rusty_talker";
+const NODE_NAME: &str = "roslibrust_talker";
 
 async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
-    let publisher = nh.advertise::<std_msgs::String>("/robot_news_radio").await?;
+    println!("Node has been started");
 
+    let publisher = nh
+        .advertise::<geometry_msgs::Twist>("/turtle1/cmd_vel")
+        .await?;
     loop {
-        let message = std_msgs::String {
-            data: format!("Hi, this is {NODE_NAME} node speaking!"),
+        let message = geometry_msgs::Twist {
+            linear: geometry_msgs::Vector3 {
+                x: 2.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            angular: geometry_msgs::Vector3 {
+                x: 0.0,
+                y: 0.0,
+                z: 1.0,
+            },
         };
         publisher.publish(&message).await?;
 
-        tokio::time::sleep(Duration::from_secs(1)).await;
+        tokio::time::sleep(Duration::from_millis(500)).await;
     }
 }
 

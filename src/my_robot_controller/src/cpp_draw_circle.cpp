@@ -10,10 +10,10 @@ int main(int argc, char **argv) {
     auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
     auto rate = ros::Rate(2.0);
     while (ros::ok()) {
-        auto msg = geometry_msgs::Twist();
-        msg.linear.x = 2.0;
-        msg.angular.z = 1.0;
-        publisher.publish(msg);
+        auto message = geometry_msgs::Twist();
+        message.linear.x = 2.0;
+        message.angular.z = 1.0;
+        publisher.publish(message);
 
         rate.sleep();
     }

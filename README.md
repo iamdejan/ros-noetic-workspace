@@ -1,6 +1,6 @@
-# A Demonstration of ROS Noetic Workstation
+# Example of ROS Noetic Workstation
 
-This is a sample of my ROS Noetic workspace. Note that in actual production, each package should be its own Git project.
+This is an example of my ROS Noetic workspace. Note that in actual production, each package should be its own Git project.
 
 ## Why ROS 1, not ROS 2?
 

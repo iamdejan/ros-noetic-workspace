@@ -18,7 +18,15 @@ env_logger = "0.11.9"
 rosrust = "0.9"
 rosrust_msg = "0.1"
 
-[profile.release]
+[[bin]]
+name = "talker"
+path = "src/talker.rs"
+
+[[bin]]
+name = "draw_circle"
+path = "src/draw_circle.rs"
+
+[profile.dev]
 opt-level = "z"   # Optimize for size ("s" is another option to experiment with)
 lto = true        # Enable Link Time Optimization for dead code elimination
 codegen-units = 1 # Maximize size reduction, but increases compile time
