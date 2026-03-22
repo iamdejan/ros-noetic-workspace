@@ -1,21 +1,42 @@
 roslibrust_codegen_macro::find_and_generate_ros_messages!();
 
-use roslibrust::{Publish, Subscribe, TopicProvider};
+use roslibrust::{Publish, Service, ServiceProvider, Subscribe, TopicProvider};
 use tokio::signal;
 use tokio_util::sync::CancellationToken;
 
 const NODE_NAME: &str = "roslibrust_turtle_controller";
+const SERVICE_NAME: &str = "/turtle1/set_pen";
 
-async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
+async fn call_set_pen_service<T: ServiceProvider>(
+    client: &T::ServiceClient<turtlesim::SetPen>,
+    r: u8,
+    g: u8,
+    b: u8,
+    width: u8,
+    off: u8,
+) -> roslibrust::Result<turtlesim::SetPenResponse> {
+    let command = turtlesim::SetPenRequest {
+        r,
+        g,
+        b,
+        width,
+        off,
+    };
+    return client.call(&command).await;
+}
+
+async fn do_work<T: TopicProvider + ServiceProvider>(ros: T) -> roslibrust::Result<()> {
+    let client = ros
+        .service_client::<turtlesim::SetPen>(SERVICE_NAME)
+        .await?;
     let mut subscriber = ros.subscribe::<turtlesim::Pose>("/turtle1/pose").await?;
     let publisher = ros
         .advertise::<geometry_msgs::Twist>("/turtle1/cmd_vel")
         .await?;
     println!("Node has been started");
 
-    loop {
-        let pose = subscriber.next().await?;
-
+    let mut previous_x: f32 = 0.0;
+    while let Ok(pose) = subscriber.next().await {
         let mut command = geometry_msgs::Twist {
             linear: geometry_msgs::Vector3 {
                 x: 5.0,
@@ -34,11 +55,21 @@ async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
             command.angular.z = 1.4;
         }
 
+        if pose.x >= 5.5 && previous_x < 5.5 {
+            call_set_pen_service::<T>(&client, 255, 0, 0, 3, 0).await?;
+        } else if pose.x < 5.5 && previous_x >= 5.5 {
+            call_set_pen_service::<T>(&client, 0, 255, 0, 3, 0).await?;
+        }
+
+        previous_x = pose.x;
+
         publisher.publish(&command).await?;
     }
+
+    return Ok(());
 }
 
-async fn relay<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
+async fn relay<T: TopicProvider + ServiceProvider>(nh: T) -> roslibrust::Result<()> {
     let cancel = CancellationToken::new();
     let cloned_cancel = cancel.clone();
 
