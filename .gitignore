@@ -384,3 +384,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/ros,visualstudiocode,clion+all,pycharm+all,vim,emacs,nanoc,linux,windows,macos,rust
+
+# commit configuration for C and C++ plugin in VS Code.
+!.vscode/c_cpp_properties.json

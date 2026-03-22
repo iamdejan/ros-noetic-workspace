@@ -90,6 +90,13 @@ int main(int argc, char **argv) {
     auto node = Node();
     node.nh = nh;
     node.publisher = publisher;
+
+    // Save to a variable, even though we don't use it.
+    // This is due to C++ RAII (Resource Acquisition Is Initialization) mechanism,
+    // which automatically destructs the resource if it's not save to a variable.
+    // By saving to a variable, the resource will not be destroyed until
+    // the variable goes out of scope.
+    // Similar mechanism happens with Rust.
     auto sub = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
