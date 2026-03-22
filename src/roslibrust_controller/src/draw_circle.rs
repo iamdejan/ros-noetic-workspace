@@ -7,8 +7,8 @@ use tokio_util::sync::CancellationToken;
 
 const NODE_NAME: &str = "roslibrust_talker";
 
-async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
-    let publisher = nh
+async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
+    let publisher = ros
         .advertise::<geometry_msgs::Twist>("/turtle1/cmd_vel")
         .await?;
     println!("Node has been started");

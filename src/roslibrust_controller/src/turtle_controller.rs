@@ -1,6 +1,6 @@
 roslibrust_codegen_macro::find_and_generate_ros_messages!();
 
-use roslibrust::{Publish, TopicProvider, Subscribe};
+use roslibrust::{Publish, Subscribe, TopicProvider};
 use tokio::signal;
 use tokio_util::sync::CancellationToken;
 
@@ -65,8 +65,8 @@ async fn relay<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
 
 #[tokio::main]
 async fn main() -> roslibrust::Result<()> {
-    let nh = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
-    relay(nh).await?;
+    let ros = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
+    relay(ros).await?;
 
     return Ok(());
 }

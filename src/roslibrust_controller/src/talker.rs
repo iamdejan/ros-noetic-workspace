@@ -7,8 +7,8 @@ use tokio_util::sync::CancellationToken;
 
 const NODE_NAME: &str = "roslibrust_talker";
 
-async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
-    let publisher = nh
+async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
+    let publisher = ros
         .advertise::<std_msgs::String>("/robot_news_radio")
         .await?;
 
@@ -49,8 +49,8 @@ async fn relay<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
 
 #[tokio::main]
 async fn main() -> roslibrust::Result<()> {
-    let nh = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
-    relay(nh).await?;
+    let ros = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
+    relay(ros).await?;
 
     return Ok(());
 }
