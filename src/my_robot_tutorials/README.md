@@ -1,8 +1,12 @@
 # My Robot Tutorials
 
-This package is to demonstrate the capability of anonymous node.
+This package is to demonstrate the capability of ROS other than controlling turtle robot. This includes:
+- anonymous node; and
+- Creating and executing simple service in Python and C++.
 
-## Python
+## Anonymous Mode
+
+### Python
 
 Enable anonymous node with `anonymous=True` when initializing the node.
 
@@ -11,7 +15,7 @@ Example:
 rospy.init_node("radio_transmitter", anonymous=True)
 ```
 
-## C++
+### C++
 
 Enable anonymous node with `ros::InitOption::AnonymousName` when initializing the node.
 

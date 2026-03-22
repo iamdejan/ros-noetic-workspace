@@ -2,6 +2,8 @@
 
 This package contains the code from [Robotics Back-end's ROS Noetic for Beginners course](https://www.youtube.com/playlist?list=PLLSegLrePWgIbIrA4iehUQ-impvIXdd9Q), along with a custom node [draw_square.py](./scripts/draw_square.py) for me to practice ROS programming.
 
+This package specifically focuses on controlling the Turtlebot from turtlesim package. Other aspects of ROS Noetic learning will be put in separate packages.
+
 ## `draw_square.py`
 
 The goal is for the robot to go to the edge, then turn 90 degrees left, and then move forward, forming a circle.
