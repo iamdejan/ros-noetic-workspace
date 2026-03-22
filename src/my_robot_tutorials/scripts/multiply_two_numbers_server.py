@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from my_robot_tutorials.srv import MultiplyTwoNumbers, MultiplyTwoNumbersRequest, MultiplyTwoNumbersResponse
 import rospy
+from my_robot_tutorials.srv import MultiplyTwoNumbers, MultiplyTwoNumbersRequest, MultiplyTwoNumbersResponse
 
 SERVICE_NAME = "multiply_two_numbers"
 
