@@ -135,6 +135,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(radio_transmitter src/radio_transmitter.cpp)
 add_executable(multiply_two_numbers_server src/multiply_two_numbers_server.cpp)
+add_executable(multiply_two_numbers_client src/multiply_two_numbers_client.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,6 +152,9 @@ target_link_libraries(radio_transmitter
   ${catkin_LIBRARIES}
 )
 target_link_libraries(multiply_two_numbers_server
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(multiply_two_numbers_client
   ${catkin_LIBRARIES}
 )
 
