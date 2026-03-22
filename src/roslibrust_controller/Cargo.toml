@@ -21,6 +21,10 @@ path = "src/talker.rs"
 name = "draw_circle"
 path = "src/draw_circle.rs"
 
+[[bin]]
+name = "turtle_controller"
+path = "src/turtle_controller.rs"
+
 [dependencies]
 roslibrust = { version = "0.20.0", features = ["codegen", "ros1", "roslibrust_ros1"] }
 roslibrust_codegen_macro = "0.20.0"

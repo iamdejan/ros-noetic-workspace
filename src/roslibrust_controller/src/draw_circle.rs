@@ -7,14 +7,13 @@ use tokio_util::sync::CancellationToken;
 
 const NODE_NAME: &str = "roslibrust_talker";
 
-async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
-    println!("Node has been started");
-
-    let publisher = nh
+async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
+    let publisher = ros
         .advertise::<geometry_msgs::Twist>("/turtle1/cmd_vel")
         .await?;
+    println!("Node has been started");
     loop {
-        let message = geometry_msgs::Twist {
+        let command = geometry_msgs::Twist {
             linear: geometry_msgs::Vector3 {
                 x: 2.0,
                 y: 0.0,
@@ -26,7 +25,7 @@ async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
                 z: 1.0,
             },
         };
-        publisher.publish(&message).await?;
+        publisher.publish(&command).await?;
 
         tokio::time::sleep(Duration::from_millis(500)).await;
     }
@@ -59,8 +58,8 @@ async fn relay<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
 
 #[tokio::main]
 async fn main() -> roslibrust::Result<()> {
-    let nh = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
-    relay(nh).await?;
+    let ros = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
+    relay(ros).await?;
 
     return Ok(());
 }
