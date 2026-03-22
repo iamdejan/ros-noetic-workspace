@@ -1,33 +1,40 @@
 roslibrust_codegen_macro::find_and_generate_ros_messages!();
 
-use roslibrust::{Publish, TopicProvider};
-use std::time::Duration;
+use roslibrust::{Publish, TopicProvider, Subscribe};
 use tokio::signal;
 use tokio_util::sync::CancellationToken;
 
-const NODE_NAME: &str = "roslibrust_talker";
+const NODE_NAME: &str = "roslibrust_turtle_controller";
 
-async fn do_work<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
-    let publisher = nh
+async fn do_work<T: TopicProvider>(ros: T) -> roslibrust::Result<()> {
+    let mut subscriber = ros.subscribe::<turtlesim::Pose>("/turtle1/pose").await?;
+    let publisher = ros
         .advertise::<geometry_msgs::Twist>("/turtle1/cmd_vel")
         .await?;
     println!("Node has been started");
+
     loop {
-        let command = geometry_msgs::Twist {
+        let pose = subscriber.next().await?;
+
+        let mut command = geometry_msgs::Twist {
             linear: geometry_msgs::Vector3 {
-                x: 2.0,
+                x: 5.0,
                 y: 0.0,
                 z: 0.0,
             },
             angular: geometry_msgs::Vector3 {
                 x: 0.0,
                 y: 0.0,
-                z: 1.0,
+                z: 0.0,
             },
         };
-        publisher.publish(&command).await?;
 
-        tokio::time::sleep(Duration::from_millis(500)).await;
+        if pose.x < 2.0 || pose.x > 9.0 || pose.y < 2.0 || pose.y > 9.0 {
+            command.linear.x = 1.0;
+            command.angular.z = 1.4;
+        }
+
+        publisher.publish(&command).await?;
     }
 }
 
@@ -58,8 +65,8 @@ async fn relay<T: TopicProvider>(nh: T) -> roslibrust::Result<()> {
 
 #[tokio::main]
 async fn main() -> roslibrust::Result<()> {
-    let ros = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
-    relay(ros).await?;
+    let nh = roslibrust::ros1::NodeHandle::new("http://localhost:11311", NODE_NAME).await?;
+    relay(nh).await?;
 
     return Ok(());
 }
