@@ -13,7 +13,7 @@ def multiply(request: MultiplyTwoNumbersRequest) -> MultiplyTwoNumbersResponse:
 
 def main():
     rospy.init_node(f"{SERVICE_NAME}_server")
-    s = rospy.Service(SERVICE_NAME, MultiplyTwoNumbers, multiply)
+    rospy.Service(SERVICE_NAME, MultiplyTwoNumbers, multiply)
     rospy.loginfo("Server has been started.")
     rospy.loginfo("Ready to multiply two numbers.")
     rospy.spin()

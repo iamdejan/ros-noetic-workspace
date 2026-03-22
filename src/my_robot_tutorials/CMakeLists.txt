@@ -134,6 +134,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(radio_transmitter src/radio_transmitter.cpp)
+add_executable(multiply_two_numbers_server src/multiply_two_numbers_server.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,6 +148,9 @@ add_executable(radio_transmitter src/radio_transmitter.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(radio_transmitter
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(multiply_two_numbers_server
   ${catkin_LIBRARIES}
 )
 

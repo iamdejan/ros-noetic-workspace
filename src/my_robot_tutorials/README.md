@@ -2,7 +2,9 @@
 
 This package is to demonstrate the capability of ROS other than controlling turtle robot. This includes:
 - implementing anonymous node; and
-- creating simple service and client in Python and C++.
+- creating service and client in Python and C++.
+
+Complete tutorials for ROS Noetic can be seen [here](https://wiki.ros.org/ROS/Tutorials).
 
 ## Anonymous Mode
 
@@ -23,3 +25,10 @@ Example:
 ```cpp
 ros::init(argc, argv, "radio_transmitter", ros::InitOption::AnonymousName);
 ```
+
+## Create Service and Client
+
+References:
+- [How to Create a Service in ROS Noetic](https://automaticaddison.com/how-to-create-a-service-in-ros-noetic/)
+- [Writing a Simple Service and Client (Python)](https://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29)
+- [Writing a Simple Service and Client (C++)](https://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29)
