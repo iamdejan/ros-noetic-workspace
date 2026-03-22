@@ -22,7 +22,7 @@ fn call_set_pen_service(r: u8, g: u8, b: u8, width: u8, off: u8) {
 }
 
 fn pose_callback(
-    pose: turtlesim::Pose,
+    pose: &turtlesim::Pose,
     publisher: &Publisher<geometry_msgs::Twist>,
     previous_x: &Arc<Mutex<f32>>,
 ) {
@@ -57,7 +57,7 @@ fn main() {
 
     let publisher = rosrust::publish::<geometry_msgs::Twist>("/turtle1/cmd_vel", 10).unwrap();
     let _subscriber = rosrust::subscribe("/turtle1/pose", 10, move |pose: turtlesim::Pose| {
-        pose_callback(pose, &publisher, &previous_x);
+        pose_callback(&pose, &publisher, &previous_x);
     })
     .unwrap();
 

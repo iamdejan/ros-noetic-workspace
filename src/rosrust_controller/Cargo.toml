@@ -21,12 +21,16 @@ rosrust = "0.9"
 rosrust_msg = "0.1"
 
 [[bin]]
-name = "talker"
-path = "src/talker.rs"
-
-[[bin]]
 name = "draw_circle"
 path = "src/draw_circle.rs"
+
+[[bin]]
+name = "pose_subscriber"
+path = "src/pose_subscriber.rs"
+
+[[bin]]
+name = "talker"
+path = "src/talker.rs"
 
 [[bin]]
 name = "turtle_controller"

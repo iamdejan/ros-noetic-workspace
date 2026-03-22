@@ -14,12 +14,16 @@ pedantic = { level = "deny", priority = -1 }
 trivially_copy_pass_by_ref = "allow"
 
 [[bin]]
-name = "talker"
-path = "src/talker.rs"
-
-[[bin]]
 name = "draw_circle"
 path = "src/draw_circle.rs"
+
+[[bin]]
+name = "pose_subscriber"
+path = "src/pose_subscriber.rs"
+
+[[bin]]
+name = "talker"
+path = "src/talker.rs"
 
 [[bin]]
 name = "turtle_controller"
