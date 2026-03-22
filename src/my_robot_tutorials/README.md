@@ -1,8 +1,8 @@
 # My Robot Tutorials
 
 This package is to demonstrate the capability of ROS other than controlling turtle robot. This includes:
-- anonymous node; and
-- Creating and executing simple service in Python and C++.
+- implementing anonymous node; and
+- creating simple service and client in Python and C++.
 
 ## Anonymous Mode
 
