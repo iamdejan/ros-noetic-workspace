@@ -140,6 +140,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(cpp_my_first_node src/cpp_my_first_node.cpp)
 add_executable(cpp_draw_circle src/cpp_draw_circle.cpp)
+add_executable(cpp_draw_square src/cpp_draw_square.cpp)
 add_executable(cpp_pose_subscriber src/cpp_pose_subscriber.cpp)
 add_executable(cpp_turtle_controller src/cpp_turtle_controller.cpp)
 
@@ -158,6 +159,9 @@ target_link_libraries(cpp_my_first_node
   ${catkin_LIBRARIES}
 )
 target_link_libraries(cpp_draw_circle
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(cpp_draw_square
   ${catkin_LIBRARIES}
 )
 target_link_libraries(cpp_pose_subscriber

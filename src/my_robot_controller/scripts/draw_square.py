@@ -149,7 +149,7 @@ def pose_callback(pose: Pose, publisher: rospy.Publisher):
 
     if current_state == State.STILL and abs(pose.theta - theta_target) <= DELTA:
         command.linear.x = FORWARD_SPEED
-        command.linear.z = 0.0
+        command.angular.z = 0.0
         current_state = State.FORWARD
     elif current_state == State.FORWARD and need_to_turn_left(pose):
         command.linear.x = 0.0
