@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto sub = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
+    auto subscriber = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
 

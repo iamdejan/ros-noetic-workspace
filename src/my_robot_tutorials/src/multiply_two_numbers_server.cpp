@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto sub = nh.advertiseService(SERVICE_NAME.c_str(), multiply);
+    auto subscriber = nh.advertiseService(SERVICE_NAME.c_str(), multiply);
 
     ROS_INFO("Server has been started.");
     ROS_INFO("Ready to multiply two numbers.");
