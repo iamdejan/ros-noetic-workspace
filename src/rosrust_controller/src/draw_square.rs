@@ -35,7 +35,7 @@ impl Node {
 
     fn new(publisher: Publisher<geometry_msgs::Twist>) -> Self {
         return Self {
-            publisher: publisher,
+            publisher,
             current_state: State::Still,
             current_target_index: 0,
             x_limits: [2.0, 9.0],
@@ -128,7 +128,7 @@ fn main() {
             .lock()
             .map(|mut node| {
                 node.callback(&pose);
-                return ;
+                return;
             })
             .unwrap();
     })
