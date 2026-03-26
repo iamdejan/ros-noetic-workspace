@@ -25,6 +25,10 @@ name = "draw_circle"
 path = "src/draw_circle.rs"
 
 [[bin]]
+name = "draw_square"
+path = "src/draw_square.rs"
+
+[[bin]]
 name = "pose_subscriber"
 path = "src/pose_subscriber.rs"
 
