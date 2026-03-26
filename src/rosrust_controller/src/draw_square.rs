@@ -35,7 +35,7 @@ impl Node {
 
     fn new(publisher: Publisher<geometry_msgs::Twist>) -> Self {
         return Self {
-            publisher,
+            publisher: publisher,
             current_state: State::Still,
             current_target_index: 0,
             x_limits: [2.0, 9.0],
@@ -112,7 +112,10 @@ fn main() {
     rosrust::init(NODE_NAME);
 
     let publisher = rosrust::publish::<geometry_msgs::Twist>("/turtle1/cmd_vel", 10).unwrap();
-    let node_mutex = Mutex::new(Node::new(publisher));
+
+    // This works because there is only one owner of node_mutex ever exists, which is the closure.
+    // If node_mutex is shared between multiple threads, we need to wrap node_mutex with Arc.
+    let node_mutex: Mutex<Node> = Mutex::new(Node::new(publisher));
 
     // Save to a variable, even though we don't use it.
     // This is due to Rust RAII (Resource Acquisition Is Initialization) mechanism,
