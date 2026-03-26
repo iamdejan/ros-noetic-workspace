@@ -1,3 +1,6 @@
+use std::sync::Arc;
+use std::sync::Mutex;
+
 use rosrust::Publisher;
 use rosrust_msg::geometry_msgs;
 use rosrust_msg::turtlesim;
@@ -33,7 +36,7 @@ impl Node {
 
     fn new(publisher: Publisher<geometry_msgs::Twist>) -> Self {
         return Self {
-            publisher: publisher,
+            publisher,
             current_state: State::Still,
             current_target_index: 0,
             x_limits: [2.0, 9.0],
@@ -42,31 +45,31 @@ impl Node {
     }
 
     fn need_to_turn_left(&self, pose: &turtlesim::Pose) -> bool {
-        if (pose.theta as f64 - Self::THETA_TARGETS[0]).abs() <= Self::DELTA
-            || (pose.theta as f64 - Self::THETA_TARGETS[2]).abs() > Self::DELTA
+        if (f64::from(pose.theta) - Self::THETA_TARGETS[0]).abs() <= Self::DELTA
+            || (f64::from(pose.theta) - Self::THETA_TARGETS[2]).abs() <= Self::DELTA
         {
-            return (pose.x as f64) < self.x_limits[0] || (pose.x as f64) > self.x_limits[1];
+            return f64::from(pose.x) < self.x_limits[0] || f64::from(pose.x) > self.x_limits[1];
         }
 
-        if (pose.theta as f64 - Self::THETA_TARGETS[1]).abs() <= Self::DELTA
-            || (pose.theta as f64 - Self::THETA_TARGETS[3]).abs() > Self::DELTA
+        if (f64::from(pose.theta) - Self::THETA_TARGETS[1]).abs() <= Self::DELTA
+            || (f64::from(pose.theta) - Self::THETA_TARGETS[3]).abs() <= Self::DELTA
         {
-            return (pose.y as f64) < self.y_limits[0] || (pose.y as f64) > self.y_limits[1];
+            return f64::from(pose.y) < self.y_limits[0] || f64::from(pose.y) > self.y_limits[1];
         }
 
         return false;
     }
 
     fn update_limits(&mut self, pose: &turtlesim::Pose) {
-        self.x_limits[0] =
-            self.x_limits[0].min((pose.x as f64) - Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
-        self.x_limits[1] =
-            self.x_limits[1].max((pose.x as f64) + Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
+        self.x_limits[0] = self.x_limits[0]
+            .min(f64::from(pose.x) - Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
+        self.x_limits[1] = self.x_limits[1]
+            .max(f64::from(pose.x) + Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
 
-        self.y_limits[0] =
-            self.y_limits[0].min((pose.y as f64) - Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
-        self.y_limits[1] =
-            self.y_limits[1].max((pose.y as f64) + Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
+        self.y_limits[0] = self.y_limits[0]
+            .min(f64::from(pose.y) - Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
+        self.y_limits[1] = self.y_limits[1]
+            .max(f64::from(pose.y) + Self::UPDATE_BY_DELTA_MULTIPLIER * Self::DELTA);
     }
 
     fn callback(&mut self, pose: &turtlesim::Pose) {
@@ -74,7 +77,7 @@ impl Node {
         let theta_target = Self::THETA_TARGETS[self.current_target_index];
 
         if self.current_state == State::Still
-            && (pose.theta as f64 - theta_target).abs() <= Self::DELTA
+            && (f64::from(pose.theta) - theta_target).abs() <= Self::DELTA
         {
             command.linear.x = Self::FORWARD_SPEED;
             command.angular.z = 0.0;
@@ -84,14 +87,14 @@ impl Node {
             self.current_state = State::Still;
             self.current_target_index = (self.current_target_index + 1) % Self::THETA_TARGETS.len();
         } else if self.current_state == State::Still
-            && (pose.theta as f64 - theta_target).abs() > Self::DELTA
+            && (f64::from(pose.theta) - theta_target).abs() > Self::DELTA
         {
             self.update_limits(pose);
 
             command.angular.z = Self::TURN_SPEED;
             self.current_state = State::TurnLeft;
         } else if self.current_state == State::TurnLeft
-            && (pose.theta as f64 - theta_target).abs() <= Self::DELTA
+            && (f64::from(pose.theta) - theta_target).abs() <= Self::DELTA
         {
             command.linear.z = 0.0;
             self.current_state = State::Still;
@@ -110,7 +113,10 @@ fn main() {
     rosrust::init(NODE_NAME);
 
     let publisher = rosrust::publish::<geometry_msgs::Twist>("/turtle1/cmd_vel", 10).unwrap();
-    let mut node = Node::new(publisher);
+    let initial_node = Arc::new(Mutex::new(Node::new(publisher)));
+
+    // Use Arc and Mutex to safely share `node` across threads
+    let node_clone = Arc::clone(&initial_node);
 
     // Save to a variable, even though we don't use it.
     // This is due to Rust RAII (Resource Acquisition Is Initialization) mechanism,
@@ -119,6 +125,7 @@ fn main() {
     // the variable goes out of scope.
     // Similar mechanism happens with C++.
     let _subscriber = rosrust::subscribe("/turtle1/pose", 10, move |pose: turtlesim::Pose| {
+        let mut node = node_clone.lock().unwrap();
         node.callback(&pose);
     })
     .unwrap();
