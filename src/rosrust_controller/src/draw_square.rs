@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use std::sync::Mutex;
 
 use rosrust::Publisher;
@@ -113,10 +112,7 @@ fn main() {
     rosrust::init(NODE_NAME);
 
     let publisher = rosrust::publish::<geometry_msgs::Twist>("/turtle1/cmd_vel", 10).unwrap();
-    let initial_node = Arc::new(Mutex::new(Node::new(publisher)));
-
-    // Use Arc and Mutex to safely share `node` across threads
-    let node_clone = Arc::clone(&initial_node);
+    let node_mutex = Mutex::new(Node::new(publisher));
 
     // Save to a variable, even though we don't use it.
     // This is due to Rust RAII (Resource Acquisition Is Initialization) mechanism,
@@ -125,8 +121,13 @@ fn main() {
     // the variable goes out of scope.
     // Similar mechanism happens with C++.
     let _subscriber = rosrust::subscribe("/turtle1/pose", 10, move |pose: turtlesim::Pose| {
-        let mut node = node_clone.lock().unwrap();
-        node.callback(&pose);
+        let () = node_mutex
+            .lock()
+            .map(|mut node| {
+                node.callback(&pose);
+                return ;
+            })
+            .unwrap();
     })
     .unwrap();
 
