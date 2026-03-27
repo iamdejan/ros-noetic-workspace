@@ -139,16 +139,16 @@ add_executable(fibonacci_server src/fibonacci_server.cpp)
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(fibonacci_server
-  ${catkin_LIBRARIES}
-)
-
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(
   fibonacci_server
   ${actionlib_basics_EXPORTED_TARGETS}
+)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(fibonacci_server
+  ${catkin_LIBRARIES}
 )
 
 #############
