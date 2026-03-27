@@ -6,14 +6,14 @@
     output="screen"
   />
   <node
-    pkg="my_robot_controller"
-    type="draw_circle.py"
+    pkg="rosrust_controller"
+    type="draw_circle"
     name="draw_circle"
     output="screen"
   />
   <node
-    pkg="my_robot_controller"
-    type="pose_subscriber.py"
+    pkg="rosrust_controller"
+    type="pose_subscriber"
     name="pose_subscriber"
     output="screen"
   />
