@@ -19,7 +19,7 @@ public:
         action_name(name) {
             action_server.start();
         }
-    
+
     ~FibonacciAction(void) {}
 
     void executeCallback(const actionlib_basics::FibonacciGoalConstPtr &goal) {
@@ -34,7 +34,7 @@ public:
 
         // publish info to the console for the user
         ROS_INFO("%s: Executing, creating Fibonacci sequence of order %li with seeds %i, %i", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
-    
+
         // start executing the action
         for (int i = 1; i <= goal->order; i++) {
             if (action_server.isPreemptRequested() || !ros::ok()) {
@@ -62,18 +62,20 @@ public:
 int main(int argc, char **argv) {
     ros::init(argc, argv, "fibonacci");
 
-    // Previously, I'm creating a FibonacciAction object with auto:
-    // ```
-    // auto fibonacci = FibonacciAction("fibonacci");
-    // ```
-    // which tries to make a copy.
-    // But FibonacciAction contains a SimpleActionServer member,
+    // This code will not work in C++14 or earlier
+    // because FibonacciAction contains a SimpleActionServer member,
     // which internally has boost::recursive_mutex, boost::condition_variable_any, and boost::mutex,
     // all of which are non-copyable (deleted copy constructors).
     // SimpleActionServer is move-only or not copyable-by-default
     // because it manages thread synchronization primitives that shouldn't be copied.
-    // To avoid such issue, use direct-initialization. 
-    FibonacciAction fibonacci("fibonacci");
-    
+    //
+    // However, in C++17, this code now works because C++17 guarantees copy elision.
+    // In short, copy elision is a compiler optimization technique that eliminates
+    // copying of objects.
+    // References:
+    // - https://en.wikipedia.org/wiki/Copy_elision
+    // - https://en.cppreference.com/w/cpp/language/copy_elision.html
+    auto fibonacci = FibonacciAction("fibonacci");
+
     ros::spin();
 }
