@@ -3,6 +3,10 @@ root = true
 [*]
 insert_final_newline=true
 
-[*.{py, cpp, rs}]
+[*.{py,cpp,rs}]
 indent_size=4
+indent_style = space
+
+[*.{xml,launch}]
+indent_size = 2
 indent_style = space

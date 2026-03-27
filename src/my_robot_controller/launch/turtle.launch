@@ -1,0 +1,14 @@
+<launch>
+  <node
+    pkg="my_robot_controller"
+    type="draw_circle.py"
+    name="draw_circle"
+    output="screen"
+  />
+  <node
+    pkg="my_robot_controller"
+    type="pose_subscriber.py"
+    name="pose_subscriber"
+    output="screen"
+  />
+</launch>
