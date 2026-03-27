@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(my_robot_controller)
-
-# check for supported C++ version
-# ref: https://stackoverflow.com/a/65483397
+project(actionlib_basics)
 
 ## Compile as C++17, supported in ROS Noetic and newer
 add_compile_options(-std=c++17)
@@ -11,11 +8,12 @@ add_compile_options(-std=c++17)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  actionlib_msgs
+  message_generation
   roscpp
   rospy
-  turtlesim
   std_msgs
-  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -66,17 +64,15 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  DIRECTORY action
+  FILES Fibonacci.action
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES actionlib_msgs std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -108,10 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES my_robot_controller
-#  CATKIN_DEPENDS roscpp std_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS actionlib_msgs
 )
 
 ###########
@@ -127,7 +120,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/my_robot_controller.cpp
+#   src/${PROJECT_NAME}/actionlib_basics.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -138,11 +131,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(cpp_my_first_node src/cpp_my_first_node.cpp)
-add_executable(cpp_draw_circle src/cpp_draw_circle.cpp)
-add_executable(cpp_draw_square src/cpp_draw_square.cpp)
-add_executable(cpp_pose_subscriber src/cpp_pose_subscriber.cpp)
-add_executable(cpp_turtle_controller src/cpp_turtle_controller.cpp)
+add_executable(fibonacci_server src/fibonacci_server.cpp)
+add_executable(fibonacci_client src/fibonacci_client.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,22 +142,20 @@ add_executable(cpp_turtle_controller src/cpp_turtle_controller.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(
+  fibonacci_server
+  ${actionlib_basics_EXPORTED_TARGETS}
+)
+add_dependencies(
+  fibonacci_client
+  ${actionlib_basics_EXPORTED_TARGETS}
+)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(cpp_my_first_node
+target_link_libraries(fibonacci_server
   ${catkin_LIBRARIES}
 )
-target_link_libraries(cpp_draw_circle
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(cpp_draw_square
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(cpp_pose_subscriber
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(cpp_turtle_controller
+target_link_libraries(fibonacci_client
   ${catkin_LIBRARIES}
 )
 
@@ -218,7 +206,7 @@ target_link_libraries(cpp_turtle_controller
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_my_robot_controller.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_actionlib_basics.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
