@@ -1,0 +1,7 @@
+<launch>
+  <node
+    pkg="rosrust_controller"
+    type="talker"
+    name="talker"
+  />
+</launch>
