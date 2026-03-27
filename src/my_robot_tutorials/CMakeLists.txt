@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(my_robot_tutorials)
 
-## Compile as C++17, supported in ROS Kinetic and newer
+## Compile as C++17, supported in ROS Noetic and newer
 add_compile_options(-std=c++17)
 
 ## Find catkin macros and libraries

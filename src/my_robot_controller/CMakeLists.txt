@@ -4,7 +4,7 @@ project(my_robot_controller)
 # check for supported C++ version
 # ref: https://stackoverflow.com/a/65483397
 
-## Compile as C++17, supported in ROS Kinetic and newer
+## Compile as C++17, supported in ROS Noetic and newer
 add_compile_options(-std=c++17)
 
 ## Find catkin macros and libraries

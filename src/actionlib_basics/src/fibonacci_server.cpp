@@ -33,7 +33,7 @@ public:
         feedback.sequence.push_back(1);
 
         // publish info to the console for the user
-        ROS_INFO("%s: Executing, creating Fibonacci sequence of order %i with seeds %i, %i", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
+        ROS_INFO("%s: Executing, creating Fibonacci sequence of order %li with seeds %i, %i", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
     
         // start executing the action
         for (int i = 1; i <= goal->order; i++) {
@@ -62,6 +62,18 @@ public:
 int main(int argc, char **argv) {
     ros::init(argc, argv, "fibonacci");
 
-    auto fibonacci = FibonacciAction("fibonacci");
+    // Previously, I'm creating a FibonacciAction object with auto:
+    // ```
+    // auto fibonacci = FibonacciAction("fibonacci");
+    // ```
+    // which tries to make a copy.
+    // But FibonacciAction contains a SimpleActionServer member,
+    // which internally has boost::recursive_mutex, boost::condition_variable_any, and boost::mutex,
+    // all of which are non-copyable (deleted copy constructors).
+    // SimpleActionServer is move-only or not copyable-by-default
+    // because it manages thread synchronization primitives that shouldn't be copied.
+    // To avoid such issue, use direct-initialization. 
+    FibonacciAction fibonacci("fibonacci");
+    
     ros::spin();
 }
