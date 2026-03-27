@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
     while (ros::ok()) {
         auto msg = std_msgs::String();
-        msg.data = "Hi, this is radio_transmitter node speaking!";
+        msg.data = "[C++] Hi, this is radio_transmitter node speaking!";
         publisher.publish(msg);
         rate.sleep();
     }

@@ -13,7 +13,7 @@ def main():
 
     while not rospy.is_shutdown():
         msg = String()
-        msg.data = "Hi, this is radio_transmitter node speaking!"
+        msg.data = "[Python] Hi, this is radio_transmitter node speaking!"
         publisher.publish(msg)
         rate.sleep()
 
