@@ -60,7 +60,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "fibonacci");
+    ros::init(argc, argv, "fibonacci_server");
 
     // This code will not work in C++14 or earlier
     // because FibonacciAction contains a SimpleActionServer member,
