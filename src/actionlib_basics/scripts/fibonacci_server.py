@@ -56,6 +56,7 @@ def main():
     rospy.init_node("fibonacci_server")
 
     FibonacciAction("fibonacci")
+    rospy.loginfo("Node has been started")
     rospy.spin()
 
 

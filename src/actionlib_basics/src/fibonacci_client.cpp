@@ -30,6 +30,6 @@ int main(int argc, char **argv) {
             i += 1;
         }
     } else {
-        ROS_INFO("Action did not finish before the time out.");
+        ROS_WARN("Action did not finish before the time out.");
     }
 }

@@ -1,0 +1,14 @@
+<launch>
+  <node
+    pkg="actionlib_basics"
+    type="fibonacci_server.py"
+    name="fibonacci_server"
+    output="screen"
+  />
+  <node
+    pkg="actionlib_basics"
+    type="fibonacci_client.py"
+    name="fibonacci_client"
+    output="screen"
+  />
+</launch>
