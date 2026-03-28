@@ -16,7 +16,10 @@ def main():
     rospy.loginfo("Node has been started")
 
     publisher = rospy.Publisher("/random_number", Float64, queue_size=10)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(20.0)
+
+    # wait for subscriber to be registered, since we don't want wasted/discarded message.
+    # at this stage, action server is guaranteed to be started
     while publisher.get_num_connections() == 0:
         rate.sleep()
 

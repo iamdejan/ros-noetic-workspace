@@ -22,11 +22,13 @@ public:
     AveragingAction(std::string name) :
         action_server(nh, name, false),
         action_name(name) {
-            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
-
             action_server.registerGoalCallback(boost::bind(&AveragingAction::goalCallback, this));
             action_server.registerPreemptCallback(boost::bind(&AveragingAction::preemptCallback, this));
             action_server.start();
+
+            // start action server first, then subscribe,
+            // since generate_numbers node is waiting for the subscriber to be registered anyway
+            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
         }
 
     void goalCallback() {
