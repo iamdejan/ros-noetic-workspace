@@ -21,6 +21,8 @@ int main(int argc, char **argv) {
     goal.samples = 100;
     action_client.sendGoal(goal);
 
+    ROS_INFO("Goal sent, now waiting for results.");
+
     // wait for action to return
     bool finished_before_timeout = action_client.waitForResult(ros::Duration(40.0));
     if (finished_before_timeout) {

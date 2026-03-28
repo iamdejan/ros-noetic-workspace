@@ -15,7 +15,7 @@ def main():
     rospy.init_node("generate_numbers")
     rospy.loginfo("Node has been started")
 
-    publisher = rospy.Publisher("/random_number", Float64, queue_size=1)
+    publisher = rospy.Publisher("/random_number", Float64, queue_size=10)
 
     rate = rospy.Rate(5)
 
