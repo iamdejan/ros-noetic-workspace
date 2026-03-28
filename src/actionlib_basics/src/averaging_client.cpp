@@ -2,10 +2,15 @@
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib_basics/AveragingAction.h>
 
+void spinThread() {
+    ros::spin();
+}
+
 int main(int argc, char **argv) {
     ros::init(argc, argv, "averaging_client");
 
     auto action_client = actionlib::SimpleActionClient<actionlib_basics::AveragingAction>("averaging", true);
+    auto spin_thread = boost::thread(&spinThread);
 
     ROS_INFO("Waiting for action server to start...");
     action_client.waitForServer();
@@ -30,4 +35,7 @@ int main(int argc, char **argv) {
     } else {
         ROS_WARN("Action did not finish before the time out.");
     }
+
+    ros::shutdown();
+    spin_thread.join();
 }
