@@ -17,7 +17,7 @@ def main():
     goal.order = 20
     action_client.send_goal(goal)
 
-    finished_before_timeout = action_client.wait_for_result(rospy.Duration(40.0))
+    finished_before_timeout = action_client.wait_for_result(rospy.Duration(20.0))
     if finished_before_timeout:
         state = action_client.get_state()
         rospy.loginfo(f"Action finished: {state}")

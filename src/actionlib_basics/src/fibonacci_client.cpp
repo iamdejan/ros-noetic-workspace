@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     action_client.sendGoal(goal);
 
     // wait for the action to return
-    bool finished_before_timeout = action_client.waitForResult(ros::Duration(40.0));
+    bool finished_before_timeout = action_client.waitForResult(ros::Duration(20.0));
     if (finished_before_timeout) {
         auto state = action_client.getState();
         ROS_INFO("Action finished: %s", state.toString().c_str());
