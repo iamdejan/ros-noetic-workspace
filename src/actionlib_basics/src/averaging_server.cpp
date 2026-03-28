@@ -25,7 +25,7 @@ public:
             action_server.registerGoalCallback(boost::bind(&AveragingAction::goalCallback, this));
             action_server.registerPreemptCallback(boost::bind(&AveragingAction::preemptCallback, this));
 
-            subscriber = nh.subscribe("/random_number", 1, &AveragingAction::analysisCallback, this);
+            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
             action_server.start();
         }
 
@@ -43,11 +43,15 @@ public:
     }
 
     void analysisCallback(const std_msgs::Float64::ConstPtr& message) {
+        ROS_INFO("Incoming message: %lf", message->data);
+
         // make sure that action server is active
         if (!action_server.isActive()) {
             ROS_WARN("%s: not active when calling analysisCallback", action_name.c_str());
             return;
         }
+
+        ROS_INFO("Message processed: %lf", message->data);
 
         data_count += 1;
         feedback.sample = data_count;
@@ -60,7 +64,7 @@ public:
         feedback.standard_deviation = sqrt(fabs((sum_of_squared * 1.0 / data_count) - pow(feedback.mean, 2)));
         action_server.publishFeedback(feedback);
 
-        if (data_count > goal) {
+        if (data_count >= goal) {
             result.mean = feedback.mean;
             result.standard_deviation = feedback.standard_deviation;
 
