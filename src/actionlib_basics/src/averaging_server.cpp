@@ -26,6 +26,7 @@ public:
             action_server.registerPreemptCallback(boost::bind(&AveragingAction::preemptCallback, this));
 
             subscriber = nh.subscribe("/random_number", 1, &AveragingAction::analysisCallback, this);
+            action_server.start();
         }
 
     void goalCallback() {

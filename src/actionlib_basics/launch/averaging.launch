@@ -1,0 +1,14 @@
+<launch>
+  <node
+    pkg="actionlib_basics"
+    type="averaging_server"
+    name="averaging_server"
+    output="screen"
+  />
+  <node
+    pkg="actionlib_basics"
+    type="averaging_client"
+    name="averaging_client"
+    output="screen"
+  />
+</launch>
