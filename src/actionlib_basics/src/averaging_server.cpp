@@ -79,5 +79,7 @@ int main(int argc, char **argv) {
 
     auto averaging = AveragingAction("averaging");
 
+    ROS_INFO("Node has been started");
+
     ros::spin();
 }

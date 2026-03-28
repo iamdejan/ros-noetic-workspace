@@ -77,5 +77,7 @@ int main(int argc, char **argv) {
     // - https://en.cppreference.com/w/cpp/language/copy_elision.html
     auto fibonacci = FibonacciAction("fibonacci");
 
+    ROS_INFO("Node has been started");
+
     ros::spin();
 }
