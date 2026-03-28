@@ -21,6 +21,14 @@ int main(int argc, char **argv) {
     if (finished_before_timeout) {
         auto state = action_client.getState();
         ROS_INFO("Action finished: %s", state.toString().c_str());
+
+        auto result = action_client.getResult();
+        auto sequence = result->sequence;
+        int i = 0;
+        for (const auto& element : sequence) {
+            ROS_INFO("fibonacci(%i) = %i", i, element);
+            i += 1;
+        }
     } else {
         ROS_INFO("Action did not finish before the time out.");
     }

@@ -3,7 +3,7 @@
 #include <actionlib_basics/FibonacciAction.h>
 
 class FibonacciAction {
-protected:
+private:
     ros::NodeHandle nh = ros::NodeHandle();
 
     // NodeHandle instance must be created before this line. Otherwise strange error occurs.
@@ -36,7 +36,7 @@ public:
         ROS_INFO("%s: Executing, creating Fibonacci sequence of order %li with seeds %i, %i", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
 
         // start executing the action
-        for (int i = 1; i <= goal->order; i++) {
+        for (int i = 2; i <= goal->order; i++) {
             if (action_server.isPreemptRequested() || !ros::ok()) {
                 ROS_INFO("%s: Preempted", action_name.c_str());
                 action_server.setPreempted();
@@ -44,7 +44,7 @@ public:
                 break;
             }
 
-            feedback.sequence.push_back(feedback.sequence[i] +feedback.sequence[i - 1]);
+            feedback.sequence.push_back(feedback.sequence[i - 1] + feedback.sequence[i - 2]);
 
             action_server.publishFeedback(feedback);
 
