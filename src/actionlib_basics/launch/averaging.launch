@@ -11,4 +11,10 @@
     name="averaging_client"
     output="screen"
   />
+  <node
+    pkg="actionlib_basics"
+    type="generate_numbers.py"
+    name="generate_numbers"
+    output="screen"
+  />
 </launch>

@@ -22,10 +22,10 @@ public:
     AveragingAction(std::string name) :
         action_server(nh, name, false),
         action_name(name) {
+            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
+
             action_server.registerGoalCallback(boost::bind(&AveragingAction::goalCallback, this));
             action_server.registerPreemptCallback(boost::bind(&AveragingAction::preemptCallback, this));
-
-            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
             action_server.start();
         }
 
@@ -51,8 +51,6 @@ public:
             return;
         }
 
-        ROS_INFO("Message processed: %lf", message->data);
-
         data_count += 1;
         feedback.sample = data_count;
         feedback.data = message->data;
@@ -70,10 +68,10 @@ public:
 
             if (result.mean < 5.0) {
                 ROS_WARN("%s: Aborted", action_name.c_str());
-                action_server.setAborted();
+                action_server.setAborted(result);
             } else {
                 ROS_INFO("%s: Succeeded", action_name.c_str());
-                action_server.setSucceeded();
+                action_server.setSucceeded(result);
             }
         }
     }

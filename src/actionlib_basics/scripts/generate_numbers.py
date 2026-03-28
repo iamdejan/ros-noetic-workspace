@@ -6,9 +6,9 @@ import rospy
 from std_msgs.msg import Float64
 
 
-MEAN = 5.0
+MEAN = 7.0
 STANDARD_DEVIATION = 1.0
-GOAL = 100
+PUBLISH_COUNT_LIMIT = 100
 
 
 def main():
@@ -16,8 +16,9 @@ def main():
     rospy.loginfo("Node has been started")
 
     publisher = rospy.Publisher("/random_number", Float64, queue_size=10)
-
-    rate = rospy.Rate(5)
+    rate = rospy.Rate(10)
+    while publisher.get_num_connections() == 0:
+        rate.sleep()
 
     sample_count = 1
     while not rospy.is_shutdown():
@@ -25,7 +26,7 @@ def main():
         publisher.publish(Float64(number))
         rospy.loginfo(f"[sample {sample_count}] Generate number {number}")
 
-        if sample_count >= GOAL:
+        if sample_count >= PUBLISH_COUNT_LIMIT:
             break
 
         sample_count += 1
