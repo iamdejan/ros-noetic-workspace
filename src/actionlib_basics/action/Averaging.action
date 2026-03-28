@@ -1,0 +1,12 @@
+# goal definition
+int64 samples
+---
+# result definition
+float64 mean
+float64 standard_deviation
+---
+# feedback
+int64 sample
+float64 data
+float64 mean
+float64 standard_deviation
