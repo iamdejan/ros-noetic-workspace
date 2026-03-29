@@ -13,7 +13,7 @@
   />
   <node
     pkg="actionlib_basics"
-    type="generate_numbers"
+    type="generate_numbers.py"
     name="generate_numbers"
     output="screen"
   />
