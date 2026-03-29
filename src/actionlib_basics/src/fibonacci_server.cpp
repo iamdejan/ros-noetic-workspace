@@ -33,7 +33,7 @@ public:
         feedback.sequence.push_back(1);
 
         // publish info to the console for the user
-        ROS_INFO("%s: Executing, creating Fibonacci sequence of order %li with seeds %i, %i", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
+        ROS_INFO("%s: Executing, creating Fibonacci sequence of order %ld with seeds %d, %d", action_name.c_str(), goal->order, feedback.sequence[0], feedback.sequence[1]);
 
         // start executing the action
         for (int i = 2; i <= goal->order; i++) {

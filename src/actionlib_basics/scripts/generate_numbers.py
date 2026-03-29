@@ -6,7 +6,7 @@ import rospy
 from std_msgs.msg import Float64
 
 
-MEAN = 7.0
+MEAN = 5.0
 STANDARD_DEVIATION = 1.0
 PUBLISH_COUNT_LIMIT = 100
 
@@ -20,7 +20,7 @@ def main():
 
     # wait for subscriber to be registered, since we don't want wasted/discarded message.
     # at this stage, action server is guaranteed to be started
-    while publisher.get_num_connections() == 0:
+    while publisher.get_num_connections() < 1:
         rate.sleep()
 
     sample_count = 1

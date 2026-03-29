@@ -45,8 +45,6 @@ public:
     }
 
     void analysisCallback(const std_msgs::Float64::ConstPtr& message) {
-        ROS_INFO("Incoming message: %lf", message->data);
-
         // make sure that action server is active
         if (!action_server.isActive()) {
             ROS_WARN("%s: not active when calling analysisCallback", action_name.c_str());
@@ -56,6 +54,8 @@ public:
         data_count += 1;
         feedback.sample = data_count;
         feedback.data = message->data;
+
+        ROS_INFO("[sample %d] Incoming message: %lf", feedback.sample, message->data);
 
         // compute the standard deviation and mean of this data
         sum += message->data;

@@ -4,7 +4,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "cpp_draw_circle");
     auto nh = ros::NodeHandle(); // Create the NodeHandle (calls ros::start())
-    
+
     ROS_INFO("Node has been started");
 
     auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
