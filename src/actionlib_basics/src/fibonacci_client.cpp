@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
         auto sequence = result->sequence;
         int i = 0;
         for (const auto& element : sequence) {
-            ROS_INFO("fibonacci(%i) = %i", i, element);
+            ROS_INFO("fibonacci(%d) = %d", i, element);
             i += 1;
         }
     } else {

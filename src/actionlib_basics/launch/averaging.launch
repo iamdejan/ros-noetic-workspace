@@ -11,10 +11,11 @@
     name="averaging_client"
     output="screen"
   />
-  <node
-    pkg="actionlib_basics"
-    type="generate_numbers.py"
-    name="generate_numbers"
-    output="screen"
-  />
+  <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+    <arg name="time" value="3" />
+    <arg name="pkg" value="actionlib_basics" />
+    <arg name="file" value="generate_numbers.launch" />
+    <arg name="value" value="" />
+    <arg name="node_name" value="generate_numbers" />
+  </include>
 </launch>

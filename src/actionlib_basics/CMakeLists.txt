@@ -135,6 +135,7 @@ add_executable(fibonacci_server src/fibonacci_server.cpp)
 add_executable(fibonacci_client src/fibonacci_client.cpp)
 add_executable(averaging_server src/averaging_server.cpp)
 add_executable(averaging_client src/averaging_client.cpp)
+add_executable(generate_numbers src/generate_numbers.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,6 +161,10 @@ add_dependencies(
   averaging_client
   ${actionlib_basics_EXPORTED_TARGETS}
 )
+add_dependencies(
+  generate_numbers
+  ${actionlib_basics_EXPORTED_TARGETS}
+)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(fibonacci_server
@@ -172,6 +177,9 @@ target_link_libraries(averaging_server
   ${catkin_LIBRARIES}
 )
 target_link_libraries(averaging_client
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(generate_numbers
   ${catkin_LIBRARIES}
 )
 
