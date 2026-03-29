@@ -1,0 +1,8 @@
+<launch>
+  <node
+    pkg="actionlib_basics"
+    type="generate_numbers"
+    name="generate_numbers"
+    output="screen"
+  />
+</launch>

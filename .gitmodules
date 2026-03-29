@@ -7,3 +7,6 @@
 [submodule "src/turtlebot3_simulations"]
 	path = src/turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations
+[submodule "src/timed_roslaunch"]
+	path = src/timed_roslaunch
+	url = https://github.com/MoriKen254/timed_roslaunch
