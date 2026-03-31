@@ -7,15 +7,15 @@
 
 class Node {
 private:
-    // Create a TransformBroadcaster object that
-    // we will use to send the transformations.
-    inline static tf2_ros::TransformBroadcaster broadcaster;
-
     std::string turtle_name;
 public:
     Node(std::string turtle_name) : turtle_name(turtle_name) {}
 
     void poseCallback(turtlesim::Pose message) {
+        // Create a TransformBroadcaster object that
+        // we will use to send the transformations.
+        static tf2_ros::TransformBroadcaster broadcaster;
+
         // Create a TransformStamped object that
         // we will use to send the transformations.
         auto transform_stamped = geometry_msgs::TransformStamped();
