@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>learning_tf2</name>
+  <version>0.0.0</version>
+  <description>The learning_tf2 package</description>
+  <maintainer email="dejan@todo.todo">dejan</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>turtlesim</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>tf2</build_export_depend>
+  <build_export_depend>tf2_ros</build_export_depend>
+  <build_export_depend>turtlesim</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>turtlesim</exec_depend>
+
+  <export>
+  </export>
+</package>

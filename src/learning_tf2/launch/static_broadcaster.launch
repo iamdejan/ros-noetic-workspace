@@ -1,0 +1,9 @@
+<launch>
+  <node
+    pkg="learning_tf2"
+    type="static_turtle_tf2_broadcaster"
+    name="static_turtle_tf2_broadcaster"
+    args="mystaticturtle 0 0 1 0 0 0"
+    output="screen"
+  />
+</launch>

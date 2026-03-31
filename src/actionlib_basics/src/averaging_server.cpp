@@ -55,7 +55,7 @@ public:
         feedback.sample = data_count;
         feedback.data = message->data;
 
-        ROS_INFO("[sample %d] Incoming message: %lf", feedback.sample, message->data);
+        ROS_INFO("[sample %ld] Incoming message: %lf", feedback.sample, message->data);
 
         // compute the standard deviation and mean of this data
         sum += message->data;
