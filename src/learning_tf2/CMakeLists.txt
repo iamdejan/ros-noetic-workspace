@@ -136,6 +136,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(static_turtle_tf2_broadcaster src/static_turtle_tf2_broadcaster.cpp)
+add_executable(turtle_tf2_broadcaster src/turtle_tf2_broadcaster.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,6 +150,9 @@ add_executable(static_turtle_tf2_broadcaster src/static_turtle_tf2_broadcaster.c
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(static_turtle_tf2_broadcaster
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(turtle_tf2_broadcaster
   ${catkin_LIBRARIES}
 )
 
@@ -188,11 +192,10 @@ target_link_libraries(static_turtle_tf2_broadcaster
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+install(FILES
+  start_demo.launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
 #############
 ## Testing ##
