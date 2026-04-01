@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
 
     auto nh = ros::NodeHandle();
 
+    // "spawn" service is used to spawn a turtle into the turtlesim window.
     ros::service::waitForService("spawn");
     auto spawner = nh.serviceClient<turtlesim::Spawn>("spawn");
     auto turtle = turtlesim::Spawn();
@@ -18,7 +19,8 @@ int main(int argc, char **argv) {
     turtle.request.name = "turtle2";
     spawner.call(turtle);
 
-    auto turtle_velocity = nh.advertise<geometry_msgs::Twist>("turtle2/cmd_vel", 10);
+    // Create a Publisher to publish velocity for turtle2.
+    auto turtle_velocity_publisher = nh.advertise<geometry_msgs::Twist>("turtle2/cmd_vel", 10);
 
     // Create TransformListener object to retrieve tf2 transformations
     auto tf_buffer = tf2_ros::Buffer();
@@ -29,6 +31,7 @@ int main(int argc, char **argv) {
     while (nh.ok()) {
         auto transform_stamped = geometry_msgs::TransformStamped();
         try {
+            // Calculate the transform between 2 frames, from turtle2 -> turtle1.
             transform_stamped = tf_buffer.lookupTransform("turtle2", "turtle1", ros::Time(0));
         } catch (tf2::TransformException &ex) {
             ROS_WARN("%s", ex.what());
@@ -36,10 +39,14 @@ int main(int argc, char **argv) {
             continue;
         }
 
+        // Calculate the velocity needed to get to the turtle1.
         auto velocity_message = geometry_msgs::Twist();
+
+        // atan2 measures the angle based on y and x.
+        // atan2 reference: https://en.wikipedia.org/wiki/Atan2
         velocity_message.angular.z = 4.0 * atan2(transform_stamped.transform.translation.y, transform_stamped.transform.translation.x);
         velocity_message.linear.x = 0.5 * sqrt(pow(transform_stamped.transform.translation.x, 2) + pow(transform_stamped.transform.translation.y, 2));
-        turtle_velocity.publish(velocity_message);
+        turtle_velocity_publisher.publish(velocity_message);
 
         rate.sleep();
     }

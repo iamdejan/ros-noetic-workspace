@@ -18,8 +18,8 @@ def main():
     publisher = rospy.Publisher("/random_number", Float64, queue_size=10)
     rate = rospy.Rate(20.0)
 
-    # wait for subscriber to be registered, since we don't want wasted/discarded message.
-    # at this stage, action server is guaranteed to be started
+    # Wait for subscriber to be registered, since we don't want wasted/discarded message.
+    # At this stage, action server is guaranteed to be started.
     while publisher.get_num_connections() < 1:
         rate.sleep()
 
