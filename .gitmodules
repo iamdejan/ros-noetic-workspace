@@ -10,3 +10,6 @@
 [submodule "src/timed_roslaunch"]
 	path = src/timed_roslaunch
 	url = https://github.com/MoriKen254/timed_roslaunch
+[submodule "src/rqt_tf_tree"]
+	path = src/rqt_tf_tree
+	url = https://github.com/ros-visualization/rqt_tf_tree
