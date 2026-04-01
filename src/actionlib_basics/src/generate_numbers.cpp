@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
     auto publisher = nh.advertise<std_msgs::Float64>("/random_number", 10);
     auto rate = ros::Rate(20.0);
 
-    // wait for subscriber to be registered, since we don't want wasted/discarded message.
-    // at this stage, action server is guaranteed to be started
+    // Wait for subscriber to be registered, since we don't want wasted/discarded message.
+    // At this stage, action server is guaranteed to be started.
     while (publisher.getNumSubscribers() < 1) {
         rate.sleep();
     }
