@@ -31,6 +31,14 @@ public:
         transform_stamped.transform.translation.z = 0.0;
 
         // Set roll-pitch-yaw in quaternion for rotation.
+        // A quaternion represents rotation using 4 numbers: (x, y, z, w).
+        // Advantages:
+        // - No gimbal lock
+        // - Smooth interpolation (SLERP)
+        // - Numerically stable
+        // - Efficient computation
+        // - Compact representation
+        // - Perfect for continuous motion
         auto quaternion = tf2::Quaternion();
         quaternion.setRPY(0, 0, message.theta);
         transform_stamped.transform.rotation.x = quaternion.x();
