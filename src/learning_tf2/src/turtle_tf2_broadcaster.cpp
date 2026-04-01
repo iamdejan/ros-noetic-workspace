@@ -30,6 +30,7 @@ public:
         transform_stamped.transform.translation.y = message.y;
         transform_stamped.transform.translation.z = 0.0;
 
+        // Set roll-pitch-yaw in quaternion for rotation.
         auto quaternion = tf2::Quaternion();
         quaternion.setRPY(0, 0, message.theta);
         transform_stamped.transform.rotation.x = quaternion.x();
