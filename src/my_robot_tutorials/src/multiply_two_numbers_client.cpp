@@ -11,7 +11,7 @@ std::string usage(char **argv) {
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "multiply_two_numbers_client");
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
     if (argc != 3) {
         ROS_ERROR("%s", usage(argv).c_str());
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 
     ros::service::waitForService(SERVICE_NAME);
 
-    auto client = nh.serviceClient<my_robot_tutorials::MultiplyTwoNumbers>(SERVICE_NAME);
+    auto client = node_handle.serviceClient<my_robot_tutorials::MultiplyTwoNumbers>(SERVICE_NAME);
 
     auto srv = my_robot_tutorials::MultiplyTwoNumbers();
     srv.request.a = atof(argv[1]);

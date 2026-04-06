@@ -13,7 +13,7 @@ bool multiply(my_robot_tutorials::MultiplyTwoNumbers::Request &request,
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, (SERVICE_NAME + "_server").c_str());
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
     // Save to a variable, even though we don't use it.
     // This is due to C++ RAII (Resource Acquisition Is Initialization) mechanism,
@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto subscriber = nh.advertiseService(SERVICE_NAME.c_str(), multiply);
+    auto subscriber = node_handle.advertiseService(SERVICE_NAME.c_str(), multiply);
 
     ROS_INFO("Server has been started.");
     ROS_INFO("Ready to multiply two numbers.");

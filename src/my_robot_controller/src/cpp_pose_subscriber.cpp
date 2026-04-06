@@ -12,7 +12,7 @@ public:
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "cpp_pose_subscriber");
-    auto nh = ros::NodeHandle(); // Create the NodeHandle (calls ros::start())
+    auto node_handle = ros::NodeHandle(); // Create the NodeHandle (calls ros::start())
 
     auto node = Node();
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto subscriber = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
+    auto subscriber = node_handle.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
 

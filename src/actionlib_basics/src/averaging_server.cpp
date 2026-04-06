@@ -5,7 +5,7 @@
 
 class AveragingAction {
 private:
-    ros::NodeHandle nh = ros::NodeHandle();
+    ros::NodeHandle node_handle = ros::NodeHandle();
 
     actionlib::SimpleActionServer<actionlib_basics::AveragingAction> action_server;
 
@@ -20,7 +20,7 @@ private:
     ros::Subscriber subscriber;
 public:
     AveragingAction(std::string name) :
-        action_server(nh, name, false),
+        action_server(node_handle, name, false),
         action_name(name) {
             action_server.registerGoalCallback(boost::bind(&AveragingAction::goalCallback, this));
             action_server.registerPreemptCallback(boost::bind(&AveragingAction::preemptCallback, this));
@@ -28,7 +28,7 @@ public:
 
             // start action server first, then subscribe,
             // since generate_numbers node is waiting for the subscriber to be registered anyway
-            subscriber = nh.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
+            subscriber = node_handle.subscribe("/random_number", 10, &AveragingAction::analysisCallback, this);
         }
 
     void goalCallback() {

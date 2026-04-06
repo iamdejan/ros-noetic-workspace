@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "cpp_my_first_node");
-    auto nh = ros::NodeHandle(); // Create the NodeHandle (calls ros::start())
+    auto node_handle = ros::NodeHandle(); // Create the NodeHandle (calls ros::start())
 
     ROS_INFO("Node has been started");
 

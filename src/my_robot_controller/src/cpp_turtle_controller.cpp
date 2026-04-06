@@ -6,8 +6,8 @@
 
 const auto SERVICE_NAME = "/turtle1/set_pen";
 
-void call_set_pen_service(ros::NodeHandle nh, uint8_t r, uint8_t g, uint8_t b, uint8_t width, uint8_t off) {
-    auto client = nh.serviceClient<turtlesim::SetPen>(SERVICE_NAME);
+void call_set_pen_service(ros::NodeHandle node_handle, uint8_t r, uint8_t g, uint8_t b, uint8_t width, uint8_t off) {
+    auto client = node_handle.serviceClient<turtlesim::SetPen>(SERVICE_NAME);
     auto request = turtlesim::SetPen::Request();
     request.r = r;
     request.g = g;
@@ -27,7 +27,7 @@ class Node {
 private:
     float previous_x = 0.0;
 public:
-    ros::NodeHandle nh;
+    ros::NodeHandle node_handle;
     ros::Publisher publisher;
 
     void callback(turtlesim::Pose pose) {
@@ -42,10 +42,10 @@ public:
 
         if (pose.x >= 5.5 && this->previous_x < 5.5) {
             ROS_INFO("Set color to red!");
-            call_set_pen_service(this->nh, 255, 0, 0, 3, 0);
+            call_set_pen_service(this->node_handle, 255, 0, 0, 3, 0);
         } else if (pose.x < 5.5 && this->previous_x >= 5.5) {
             ROS_INFO("Set color to green!");
-            call_set_pen_service(this->nh, 0, 255, 0, 3, 0);
+            call_set_pen_service(this->node_handle, 0, 255, 0, 3, 0);
         }
 
         this->previous_x = pose.x;
@@ -56,13 +56,13 @@ public:
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "cpp_turtle_controller");
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
     ros::service::waitForService(SERVICE_NAME);
 
-    auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+    auto publisher = node_handle.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
     auto node = Node();
-    node.nh = nh;
+    node.node_handle = node_handle;
     node.publisher = publisher;
 
     // Save to a variable, even though we don't use it.
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto subscriber = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
+    auto subscriber = node_handle.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
 

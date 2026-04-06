@@ -7,11 +7,11 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "my_tf2_listener");
 
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
     // "spawn" service is used to spawn a turtle into the turtlesim window.
     ros::service::waitForService("spawn");
-    auto spawner = nh.serviceClient<turtlesim::Spawn>("spawn");
+    auto spawner = node_handle.serviceClient<turtlesim::Spawn>("spawn");
     auto turtle = turtlesim::Spawn();
     turtle.request.x = 4;
     turtle.request.y = 2;
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     spawner.call(turtle);
 
     // Create a Publisher to publish velocity for turtle2.
-    auto turtle_velocity_publisher = nh.advertise<geometry_msgs::Twist>("turtle2/cmd_vel", 10);
+    auto turtle_velocity_publisher = node_handle.advertise<geometry_msgs::Twist>("turtle2/cmd_vel", 10);
 
     // Create TransformListener object to retrieve tf2 transformations
     auto tf_buffer = tf2_ros::Buffer();
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
     auto rate = ros::Rate(10.0);
 
-    while (nh.ok()) {
+    while (node_handle.ok()) {
         auto transform_stamped = geometry_msgs::TransformStamped();
         try {
             // Calculate the transform between 2 frames, from turtle2 -> turtle1.

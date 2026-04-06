@@ -49,7 +49,7 @@ private:
         this->y_limits[1] = std::max(y_limits[1], pose.y + UPDATE_BY_DELTA_MULTIPLIER * DELTA);
     }
 public:
-    ros::NodeHandle nh;
+    ros::NodeHandle node_handle;
     ros::Publisher publisher;
 
     void callback(turtlesim::Pose pose) {
@@ -84,11 +84,11 @@ public:
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "cpp_draw_square");
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
-    auto publisher = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+    auto publisher = node_handle.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
     auto node = Node();
-    node.nh = nh;
+    node.node_handle = node_handle;
     node.publisher = publisher;
 
     // Save to a variable, even though we don't use it.
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     // By saving to a variable, the resource will not be destroyed until
     // the variable goes out of scope.
     // Similar mechanism happens with Rust.
-    auto subscriber = nh.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
+    auto subscriber = node_handle.subscribe<turtlesim::Pose>("/turtle1/pose", 10, &Node::callback, &node);
 
     ROS_INFO("Node has been started");
 
