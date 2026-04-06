@@ -4,7 +4,7 @@
 
 class FibonacciAction {
 private:
-    ros::NodeHandle nh = ros::NodeHandle();
+    ros::NodeHandle node_handle = ros::NodeHandle();
 
     // NodeHandle instance must be created before this line. Otherwise strange error occurs.
     actionlib::SimpleActionServer<actionlib_basics::FibonacciAction> action_server;
@@ -15,7 +15,7 @@ private:
     actionlib_basics::FibonacciResult result;
 public:
     FibonacciAction(std::string name) :
-        action_server(nh, name, boost::bind(&FibonacciAction::executeCallback, this, _1), false),
+        action_server(node_handle, name, boost::bind(&FibonacciAction::executeCallback, this, _1), false),
         action_name(name) {
             action_server.start();
         }

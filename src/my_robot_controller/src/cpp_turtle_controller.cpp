@@ -6,8 +6,8 @@
 
 const auto SERVICE_NAME = "/turtle1/set_pen";
 
-void call_set_pen_service(ros::NodeHandle nh, uint8_t r, uint8_t g, uint8_t b, uint8_t width, uint8_t off) {
-    auto client = nh.serviceClient<turtlesim::SetPen>(SERVICE_NAME);
+void call_set_pen_service(ros::NodeHandle node_handle, uint8_t r, uint8_t g, uint8_t b, uint8_t width, uint8_t off) {
+    auto client = node_handle.serviceClient<turtlesim::SetPen>(SERVICE_NAME);
     auto request = turtlesim::SetPen::Request();
     request.r = r;
     request.g = g;

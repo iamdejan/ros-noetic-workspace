@@ -9,13 +9,13 @@ const int PUBLISH_COUNT_LIMIT = 100;
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "generate_numbers");
-    ros::NodeHandle nh;
+    ros::NodeHandle node_handle;
 
     auto random_device = std::random_device();
     auto generator = std::mt19937(random_device());
     auto normal_distribution = std::normal_distribution<double>(MEAN, STANDARD_DEVIATION);
 
-    auto publisher = nh.advertise<std_msgs::Float64>("/random_number", 10);
+    auto publisher = node_handle.advertise<std_msgs::Float64>("/random_number", 10);
     auto rate = ros::Rate(20.0);
 
     // Wait for subscriber to be registered, since we don't want wasted/discarded message.
