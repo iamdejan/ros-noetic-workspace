@@ -18,7 +18,7 @@ const double K_l = 1.0;
 
 // The distance threshold in meters that will determine when
 // the turtlesim robot successfully reaches the goal.
-const double distance_tolerance = 0.1;
+const double distance_tolerance = 0.001;
 
 // Initialize variables and take care of other setup tasks.
 void setup() {
@@ -69,26 +69,26 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "go_to_goal_x");
 
     // Create the main access point to communicate with ROS.
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
 
     // Subscribe to the robot's pose.
     // Hold no messages in the queue. Automatically throw away
     // any message(s) that are received that are not able to be processed
     // quick enough.
     // Every time a new pose is received, update the robot's pose.
-    auto current_pose_sub = nh.subscribe("turtle1/pose", 0, updatePose);
+    auto current_pose_sub = node_handle.subscribe("turtle1/pose", 0, updatePose);
 
     // Publish velocity commands to a topic.
     // Hold no messages in the queue. Automatically throw away
     // any message(s) that are received that are not able to be processed
     // quick enough.
-    auto velocity_publisher = nh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 0);
+    auto velocity_publisher = node_handle.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 0);
 
     // Specify a frequency for the loop.
     // In this case, we want to loop 10 cycles per second.
     auto rate = ros::Rate(10.0);
 
-    while (nh.ok()) {
+    while (node_handle.ok()) {
         
         // Here is where we call the callbacks that need to be called.
         ros::spinOnce();

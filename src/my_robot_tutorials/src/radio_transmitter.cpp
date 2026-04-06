@@ -3,8 +3,8 @@
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "radio_transmitter", ros::InitOption::AnonymousName);
-    auto nh = ros::NodeHandle();
-    auto publisher = nh.advertise<std_msgs::String>("/robot_news_radio", 10);
+    auto node_handle = ros::NodeHandle();
+    auto publisher = node_handle.advertise<std_msgs::String>("/robot_news_radio", 10);
     auto rate = ros::Rate(10);
 
     ROS_INFO("Node has been started");

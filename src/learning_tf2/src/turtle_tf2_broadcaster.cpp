@@ -68,9 +68,9 @@ int main(int argc, char **argv) {
         private_node.getParam("turtle", turtle_name);
     }
 
-    auto nh = ros::NodeHandle();
+    auto node_handle = ros::NodeHandle();
     auto node = Node(turtle_name);
-    auto subscriber = nh.subscribe(turtle_name+"/pose", 10, &Node::poseCallback, &node);
+    auto subscriber = node_handle.subscribe(turtle_name+"/pose", 10, &Node::poseCallback, &node);
 
     ros::spin();
 }

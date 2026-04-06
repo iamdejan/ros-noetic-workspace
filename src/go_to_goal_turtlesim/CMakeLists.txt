@@ -134,6 +134,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(go_to_goal_x src/go_to_goal_x.cpp)
+add_executable(waypoint_publisher src/waypoint_publisher.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,6 +148,9 @@ add_executable(go_to_goal_x src/go_to_goal_x.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(go_to_goal_x
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(waypoint_publisher
   ${catkin_LIBRARIES}
 )
 
