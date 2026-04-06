@@ -100,7 +100,12 @@ int main(int argc, char **argv) {
         // Publish the velocity command to the ROS topic.
         velocity_publisher.publish(velocity_command);
 
-        ROS_INFO("Current x = %lf\nDesired x = %lf\nDistance to goal = %lf m\nLinear velocity (x) = %lf m/s", current.x, desired.x, getDistanceToGoal(), velocity_command.linear.x);
+        ROS_INFO("Current x = %lf\nDesired x = %lf\nDistance to goal = %lf m\nLinear velocity (x) = %lf m/s",
+            current.x,
+            desired.x,
+            getDistanceToGoal(),
+            velocity_command.linear.x
+        );
 
         rate.sleep();
     }
