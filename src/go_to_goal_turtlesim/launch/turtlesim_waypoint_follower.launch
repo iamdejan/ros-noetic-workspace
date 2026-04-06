@@ -6,12 +6,8 @@
   />
   <node
     pkg="go_to_goal_turtlesim"
-    type="waypoint_publisher"
-    name="waypoint_publisher"
-  />
-  <node
-    pkg="go_to_goal_turtlesim"
     type="go_to_goal_x_y"
     name="go_to_goal_x_y"
+    output="screen"
   />
 </launch>
