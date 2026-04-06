@@ -135,6 +135,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(go_to_goal_x src/go_to_goal_x.cpp)
 add_executable(waypoint_publisher src/waypoint_publisher.cpp)
+add_executable(go_to_goal_x_y src/go_to_goal_x_y.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,6 +152,9 @@ target_link_libraries(go_to_goal_x
   ${catkin_LIBRARIES}
 )
 target_link_libraries(waypoint_publisher
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(go_to_goal_x_y
   ${catkin_LIBRARIES}
 )
 
