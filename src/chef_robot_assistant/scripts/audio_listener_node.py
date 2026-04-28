@@ -46,9 +46,7 @@ class AudioListenerNode:
             return False
 
     def record_audio(self):
-
         rospy.loginfo("Listening... Speak now")
-
         audio = sd.rec(
             int(self.record_seconds * self.sample_rate),
             samplerate=self.sample_rate,
@@ -57,7 +55,6 @@ class AudioListenerNode:
         )
 
         sd.wait()
-
         return audio
 
     def transcribe_audio(self, audio):
@@ -66,7 +63,7 @@ class AudioListenerNode:
             write(filename, self.sample_rate, audio)
 
         rospy.loginfo("Transcribing audio...")
-        result = self.asr(filename)
+        result = self.asr(filename, generate_kwargs={"language": "en", "forced_decoder_ids": None})
         os.remove(filename)
         return result["text"]
 
