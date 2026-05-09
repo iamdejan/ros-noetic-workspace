@@ -15,4 +15,5 @@
 	url = https://github.com/ros-visualization/rqt_tf_tree
 [submodule "src/chef_robot_assistant"]
 	path = src/chef_robot_assistant
-	url = /home/dejan/VSCodeProjects/chef-robot-assistant/
+	url = git@github.com:iamdejan/chef-robot-assistant.git
+	branch = main
