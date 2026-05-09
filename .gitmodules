@@ -13,7 +13,3 @@
 [submodule "src/rqt_tf_tree"]
 	path = src/rqt_tf_tree
 	url = https://github.com/ros-visualization/rqt_tf_tree
-[submodule "src/chef_robot_assistant"]
-	path = src/chef_robot_assistant
-	url = git@github.com:iamdejan/chef-robot-assistant.git
-	branch = main
