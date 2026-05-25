@@ -1,0 +1,8 @@
+<launch>
+  <node
+    pkg="voice_command"
+    type="audio_listener_node.py"
+    name="audio_listener_node"
+    output="screen"
+  />
+</launch>
